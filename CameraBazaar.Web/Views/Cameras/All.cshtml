@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AllCamerasServiceModel>
+@{
+    ViewData["Title"] = "All Cameras";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@ViewData["Title"] <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Cameras" asp-action="Add">Add Camera</a></h2>
+    </div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-group">
+                @foreach (var cam in Model)
+                {
+                    <div class="card col-md-4 thumbnail">
+
+                        <img class="card-image-top img-fluid img-thumbnail"
+                             src="@cam.ImageURL">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">@($"{cam.Make} {cam.Model}")</h4>
+                            <p class="card-text text-center"><strong>Price</strong> - cam.Price&dollar;</p>
+                            <p class="card-text text-center">@Html.Stock(cam.Quantity)</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <a class="btn btn-primary btn-lg btn-group-justified" href="/Cameras/Details/@cam.Id">Details</a>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

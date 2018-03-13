@@ -1,0 +1,12 @@
+﻿@model CameraDetailsServiceModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>@Model.Model @Model.Make - $@Model.Price – @Html.Stock(Model.Quantity)</h3>
+<h3><a href="/Users/Profile?Username=@Model.Username">@Model.Username</a></h3>
+<br />
+<img class="card-image-top img-fluid img-thumbnail" src="@Model.ImageURL" width="20%" height="20%"/>
+<br />
+@Html.Partial("_CameraDetails", Model)
+<a href="/Cameras/All" class="btn btn-success btn-lg">Back To All Cameras</a>

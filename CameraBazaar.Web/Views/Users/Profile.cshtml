@@ -1,0 +1,53 @@
+﻿@model UserProfileServiceModel
+@{
+    ViewData["Title"] = "Profile";
+}
+@{
+    string inStok = $"{Model.Cameras.Where(c => c.Quantity > 0).Count()} in stok";
+    string outOfStok = $"{Model.Cameras.Where(c => c.Quantity == 0).Count()} out of stok";
+    string logInUserName = Context.User.Identity.Name ?? string.Empty;
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+<h2>@Model.Username @Html.EditProfile(logInUserName, Model.Username)</h2>
+<hr />
+<dl class="dl-horizontal">
+    <dt>Email:</dt>
+    <dd>@Model.Email</dd>
+    <dt>Phone:</dt>
+    <dd>@Model.PhoneNumber</dd>
+    <dt>Cameras:</dt>
+    <dd>@inStok/@outOfStok</dd>
+</dl>
+<hr />
+<h2>Cameras:</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-group">
+                @foreach (var cam in Model.Cameras)
+                {
+                    <div class="card col-md-4 thumbnail">
+
+                        <img class="card-image-top img-fluid img-thumbnail"
+                             src="@cam.ImageURL">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">@($"{cam.Make} {cam.Model}")</h4>
+                            <p class="card-text text-center"><strong>Price</strong> - @cam.Price&dollar;</p>
+                            <p class="card-text text-center">@Html.Stock(cam.Quantity)</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <a class="btn btn-primary btn-lg btn-group-lg" href="/Cameras/Details/@cam.Id">Details</a>
+                            @if (Context.User.Identity.Name == Model.Username)
+                            {
+                                <a class="btn btn-warning btn-lg btn-group-lg" href="/Cameras/Edit/@cam.Id">Edit</a>
+                                <a class="btn btn-danger btn-lg btn-group-lg" href="/Cameras/Delete/@cam.Id">Delete</a>
+                            }
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
